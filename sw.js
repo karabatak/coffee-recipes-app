@@ -1,8 +1,8 @@
-const CACHE_NAME = 'coffee-recipes-cache-v33'; // Her yeni versiyon çıktığında bu değeri değiştirin
+const CACHE_NAME = 'coffee-recipes-cache-v34'; // Her yeni versiyon çıktığında bu değeri değiştirin
 const urlsToCache = [
   '/coffee-recipes-app/',
-  '/coffee-recipes-app/index.html',
   '/coffee-recipes-app/manifest.json',
+  // '/coffee-recipes-app/index.html', // index.html'i cache'den çıkardık
 ];
 
 // Install event - Dosyalar ilk defa cache'e ekleniyor
@@ -37,29 +37,45 @@ self.addEventListener('activate', event => {
   self.clients.claim(); 
 });
 
-// Fetch event - Dinamik olarak js ve css dosyalarını cache'e ekler
+// Fetch event - index.html için network first stratejisi uygular
 self.addEventListener('fetch', event => {
-  const requestUrl = new URL(event.request.url);
-
-  // Sadece static js ve css dosyalarını cache'le
-  if (requestUrl.pathname.startsWith('/coffee-recipes-app/static/js/') || requestUrl.pathname.startsWith('/coffee-recipes-app/static/css/')) {
+  if (event.request.mode === 'navigate') {
+    // HTML sayfaları için network first stratejisi
     event.respondWith(
-      caches.match(event.request).then(response => {
-        return response || fetch(event.request).then(fetchResponse => {
+      fetch(event.request)
+        .then(response => {
           return caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request.url, fetchResponse.clone());
-            return fetchResponse;
+            cache.put(event.request, response.clone());
+            return response;
           });
-        });
-      })
+        })
+        .catch(() => {
+          return caches.match(event.request);
+        })
     );
   } else {
-    // Diğer tüm isteklerde cache veya network fallback yap
-    event.respondWith(
-      caches.match(event.request).then(response => {
-        return response || fetch(event.request);
-      })
-    );
+    const requestUrl = new URL(event.request.url);
+
+    // Sadece static js ve css dosyalarını cache'le
+    if (requestUrl.pathname.startsWith('/coffee-recipes-app/static/js/') || requestUrl.pathname.startsWith('/coffee-recipes-app/static/css/')) {
+      event.respondWith(
+        caches.match(event.request).then(response => {
+          return response || fetch(event.request).then(fetchResponse => {
+            return caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request.url, fetchResponse.clone());
+              return fetchResponse;
+            });
+          });
+        })
+      );
+    } else {
+      // Diğer tüm isteklerde cache veya network fallback yap
+      event.respondWith(
+        caches.match(event.request).then(response => {
+          return response || fetch(event.request);
+        })
+      );
+    }
   }
 });
 
