@@ -28,10 +28,10 @@ if ('serviceWorker' in navigator) {
                 console.log('Yeni içerik mevcut, sayfa yenileniyor.....');
                 
                 // Yeni Service Worker'ı devreye sok
-                if (registration.waiting) {
-                  registration.waiting.postMessage({ type: 'skipWaiting' });
-                }
-                window.location.reload(); // Otomatik olarak sayfa yenilenir ve yeni içerik yüklenir
+                installingWorker.postMessage({ type: 'skipWaiting' });
+                
+                // Sayfa otomatik olarak yenilenir ve yeni içerik yüklenir
+                window.location.reload();
               }
             }
           };
@@ -43,4 +43,5 @@ if ('serviceWorker' in navigator) {
     );
   });
 }
+
 
