@@ -1,10 +1,10 @@
 const CACHE_NAME = 'coffee-recipes-cache-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png',
+  '/coffee-recipes-app/',
+  '/coffee-recipes-app/index.html',
+  '/coffee-recipes-app/manifest.json',
+  '/coffee-recipes-app/static/js/main.8ce6c82d.js',
+  '/coffee-recipes-app/static/css/main.b3376e87.css',
 ];
 
 // Service worker kurulumunda sabit dosyaları önbelleğe al
