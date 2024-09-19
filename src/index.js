@@ -25,19 +25,13 @@ if ('serviceWorker' in navigator) {
             if (installingWorker.state === 'installed') {
               if (navigator.serviceWorker.controller) {
                 // Yeni bir Service Worker mevcut
-                console.log('Yeni içerik mevcut, sayfayı yenileyin.');
-
-                // Kullanıcıya sayfayı yenileme önerisi
-                // eslint-disable-next-line no-restricted-globals
-                if (confirm('Yeni bir güncelleme mevcut. Sayfayı yenilemek ister misiniz?')) {
-                  // Yeni Service Worker'ı zorla devreye sok
-                  if (registration.waiting) {
-                    registration.waiting.postMessage({ type: 'skipWaiting' });
-                  }
-                  window.location.reload();
+                console.log('Yeni içerik mevcut, sayfa yenileniyor...');
+                
+                // Yeni Service Worker'ı devreye sok
+                if (registration.waiting) {
+                  registration.waiting.postMessage({ type: 'skipWaiting' });
                 }
-              } else {
-                console.log('İçerik ilk kez cache\'lendi.');
+                window.location.reload(); // Otomatik olarak sayfa yenilenir ve yeni içerik yüklenir
               }
             }
           };
