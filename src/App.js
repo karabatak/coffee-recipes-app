@@ -28,7 +28,7 @@ function App() {
 
   return (
     <div className="bg-gray-100 min-h-screen p-4">
-      <h1 className="text-5xl font-bold text-center mb-6">Kahve Tarifleri</h1>
+      <h1 className="text-4xl md:text-7xl font-bold text-center mb-10 mt-10">Kahve Tarifleri</h1>
       <RecipeList />
       {deferredPrompt && (
         <div className="fixed bottom-4 right-4">

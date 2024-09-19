@@ -8,7 +8,7 @@ function RecipeList() {
         <div key={recipe.id} className="w-full bg-white rounded-lg shadow-md overflow-hidden">
           <img src={recipe.image} alt={recipe.name} className="w-full h-85 object-cover" />
           <div className="p-4">
-            <h2 className="text-3xl font-semibold mb-2">{recipe.name}</h2>
+            <h2 className="text-2xl md:text-3xl font-semibold mb-2">{recipe.name}</h2>
             <p className="text-xl text-gray-700">{recipe.description}</p>
           </div>
         </div>
