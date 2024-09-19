@@ -3,24 +3,58 @@ const urlsToCache = [
   '/coffee-recipes-app/',
   '/coffee-recipes-app/index.html',
   '/coffee-recipes-app/manifest.json',
-  '/coffee-recipes-app/static/js/main.8ce6c82d.js',
-  '/coffee-recipes-app/static/css/main.b3376e87.css',
 ];
 
-// Service worker kurulumunda sabit dosyaları önbelleğe al
-self.addEventListener('install', (event) => {
+// Install event - Dosyalar ilk defa cache'e ekleniyor
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(urlsToCache);
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
+
+// Activate event - Eski cache'leri temizler
+self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
     })
   );
 });
 
-// Service worker ile fetch olayını yönetme
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
-    })
-  );
+// Fetch event - Dinamik olarak js ve css dosyalarını cache'e ekler
+self.addEventListener('fetch', event => {
+  const requestUrl = new URL(event.request.url);
+
+  // Sadece static js ve css dosyalarını cache'le
+  if (requestUrl.pathname.startsWith('/coffee-recipes-app/static/js/') || requestUrl.pathname.startsWith('/coffee-recipes-app/static/css/')) {
+    event.respondWith(
+      caches.match(event.request).then(response => {
+        return response || fetch(event.request).then(fetchResponse => {
+          return caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request.url, fetchResponse.clone());
+            return fetchResponse;
+          });
+        });
+      })
+    );
+  } else {
+    // Diğer tüm isteklerde cache veya network fallback yap
+    event.respondWith(
+      caches.match(event.request).then(response => {
+        return response || fetch(event.request);
+      })
+    );
+  }
 });
