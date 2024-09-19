@@ -25,7 +25,7 @@ if ('serviceWorker' in navigator) {
             if (installingWorker.state === 'installed') {
               if (navigator.serviceWorker.controller) {
                 // Yeni bir Service Worker mevcut
-                console.log('Yeni içerik mevcut, sayfa yenileniyor...');
+                console.log('Yeni içerik mevcut, sayfa yenileniyor....');
                 
                 // Yeni Service Worker'ı devreye sok
                 if (registration.waiting) {
