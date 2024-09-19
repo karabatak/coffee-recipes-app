@@ -3,7 +3,7 @@ import recipes from '../data/recipes';
 
 function RecipeList() {
   return (
-    <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-3">
+    <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-3 pb-5">
       {recipes.map((recipe) => (
         <div key={recipe.id} className="w-full bg-white rounded-lg shadow-md overflow-hidden">
           <img src={recipe.image} alt={recipe.name} className="w-full h-85 object-cover" />
