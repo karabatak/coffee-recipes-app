@@ -9,7 +9,7 @@ function RecipeList() {
           <img src={recipe.image} alt={recipe.name} className="w-full h-85 object-cover" />
           <div className="p-4">
             <h2 className="text-2xl md:text-3xl font-semibold mb-2">{recipe.name}</h2>
-            <p className="text-xl text-gray-700">{recipe.description}... ... ... ...</p>
+            <p className="text-xl text-gray-700">{recipe.description} oktay </p>
           </div>
         </div>
       ))}
