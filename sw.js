@@ -1,4 +1,4 @@
-const CACHE_NAME = 'coffee-recipes-cache-v2';
+const CACHE_NAME = 'coffee-recipes-cache-v3';
 const urlsToCache = [
   '/coffee-recipes-app/',
   '/coffee-recipes-app/index.html',
