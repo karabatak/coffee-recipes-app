@@ -5,11 +5,9 @@ const urlsToCache = [
   '/manifest.json',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
-  '/static/js/main.8ce6c82d.js',
-  '/static/css/main.b3376e87.css',
 ];
 
-// Service worker kurulumunda önbelleğe alma
+// Service worker kurulumunda sabit dosyaları önbelleğe al
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -18,22 +16,18 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Service worker ile fetch olayını yönetme (Dinamik Önbellekleme)
+// Dinamik olarak tüm dosyaları önbelleğe alma (fetch olayı ile)
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
       if (response) {
         return response;
       }
-
-      // Dinamik olarak önbelleğe alma
       return fetch(event.request).then((networkResponse) => {
-        // Eğer istek başarısız olursa (çevrimdışı vb.), boş bir yanıt döndür
         if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
           return networkResponse;
         }
 
-        // Önbelleğe ekleme
         const responseToCache = networkResponse.clone();
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, responseToCache);
