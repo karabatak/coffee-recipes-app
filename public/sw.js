@@ -3,10 +3,13 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  // Uygulamanın diğer gerekli dosyalarını ekle
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png',
+  '/data/recipes.js', // Verileri içeren dosyanın önbelleğe alınması
+  // Diğer statik dosyalar
 ];
 
-// Kurulum (install) olayı
+// Service worker kurulumunda önbelleğe alma
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -15,16 +18,11 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Aktifleşme (activate) olayı
-self.addEventListener('activate', (event) => {
-  // Eski cache'leri temizleme işlemi burada yapılabilir
-});
-
-// Fetch olayı
+// Service worker ile fetch olayını yönetme
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
-      // Cache'de bulursa döndürür, bulamazsa ağdan ister
+      // Eğer önbellekte varsa, önbellekten döner, yoksa ağdan ister
       return response || fetch(event.request);
     })
   );
