@@ -4,9 +4,7 @@ const urlsToCache = [
   '/index.html',
   '/manifest.json',
   '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png',
-  '/static/js/main.ae3d9131.js',
-  '/static/css/main.b3376e87.css',
+  '/icons/icon-512x512.png'
 ];
 
 // Service worker kurulumunda önbelleğe alma
