@@ -30,6 +30,10 @@ if ('serviceWorker' in navigator) {
                 // Kullanıcıya sayfayı yenileme önerisi
                 // eslint-disable-next-line no-restricted-globals
                 if (confirm('Yeni bir güncelleme mevcut. Sayfayı yenilemek ister misiniz?')) {
+                  // Yeni Service Worker'ı zorla devreye sok
+                  if (registration.waiting) {
+                    registration.waiting.postMessage({ type: 'skipWaiting' });
+                  }
                   window.location.reload();
                 }
               } else {
@@ -45,3 +49,4 @@ if ('serviceWorker' in navigator) {
     );
   });
 }
+

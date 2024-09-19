@@ -1,4 +1,4 @@
-const CACHE_NAME = 'coffee-recipes-cache-v10'; // Her yeni versiyon çıktığında bu değeri değiştirin
+const CACHE_NAME = 'coffee-recipes-cache-v12'; // Her yeni versiyon çıktığında bu değeri değiştirin
 const urlsToCache = [
   '/coffee-recipes-app/',
   '/coffee-recipes-app/index.html',
@@ -14,10 +14,11 @@ self.addEventListener('install', event => {
       return cache.addAll(urlsToCache);
     })
   );
-  self.skipWaiting(); // Yeni sürüm hemen aktif olsun
+  // Yeni Service Worker'ın hemen aktif hale gelmesini sağla
+  self.skipWaiting(); 
 });
 
-// Activate event - Eski cache'leri temizler
+// Activate event - Eski cache'leri temizler ve yeni Service Worker'ı devreye sokar
 self.addEventListener('activate', event => {
   console.log('Service Worker activating.');
   event.waitUntil(
@@ -32,7 +33,8 @@ self.addEventListener('activate', event => {
       );
     })
   );
-  self.clients.claim(); // Yeni sürüm hemen devreye girsin
+  // Yeni Service Worker'ın hemen aktif olmasını sağlar
+  self.clients.claim(); 
 });
 
 // Fetch event - Dinamik olarak js ve css dosyalarını cache'e ekler
