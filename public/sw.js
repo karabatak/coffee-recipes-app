@@ -1,4 +1,4 @@
-const CACHE_NAME = 'coffee-recipes-cache-v3';
+const CACHE_NAME = 'coffee-recipes-cache-v4'; // Her yeni versiyon çıktığında bu değeri değiştirin
 const urlsToCache = [
   '/coffee-recipes-app/',
   '/coffee-recipes-app/index.html',
@@ -7,23 +7,24 @@ const urlsToCache = [
 
 // Install event - Dosyalar ilk defa cache'e ekleniyor
 self.addEventListener('install', event => {
+  console.log('Service Worker installing.');
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then(cache => {
+      console.log('Opened cache');
+      return cache.addAll(urlsToCache);
+    })
   );
+  self.skipWaiting(); // Yeni sürüm hemen aktif olsun
 });
 
 // Activate event - Eski cache'leri temizler
 self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
+  console.log('Service Worker activating.');
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          if (!cacheWhitelist.includes(cacheName)) {
+          if (cacheName !== CACHE_NAME) {
             console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
@@ -31,6 +32,7 @@ self.addEventListener('activate', event => {
       );
     })
   );
+  self.clients.claim(); // Yeni sürüm hemen devreye girsin
 });
 
 // Fetch event - Dinamik olarak js ve css dosyalarını cache'e ekler
@@ -56,5 +58,12 @@ self.addEventListener('fetch', event => {
         return response || fetch(event.request);
       })
     );
+  }
+});
+
+// Kullanıcıya yeni bir sürüm olduğunu bildirir ve sayfayı yenilemeye zorlar
+self.addEventListener('message', event => {
+  if (event.data === 'skipWaiting') {
+    self.skipWaiting();
   }
 });
