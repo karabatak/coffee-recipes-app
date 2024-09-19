@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
+import { requestNotificationPermission, onMessageListener } from './push-notification';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -10,6 +11,19 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+requestNotificationPermission().then((token) => {
+  if (token) {
+    console.log('FCM Token alındı:', token);
+    // Token'ı sunucunuza kaydedin
+  }
+});
+
+// Ön planda gelen bildirimleri dinleme
+onMessageListener().then((payload) => {
+  console.log('Mesaj alındı:', payload);
+  alert(`Yeni bildirim: ${payload.notification.title} - ${payload.notification.body}`);
+});
 
 // Service worker kayıt fonksiyonu
 if ('serviceWorker' in navigator) {
