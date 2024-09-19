@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/coffee-recipes-app/static/css/main.0f15db99.css",
-    "main.js": "/coffee-recipes-app/static/js/main.523590bc.js",
+    "main.js": "/coffee-recipes-app/static/js/main.641de487.js",
     "index.html": "/coffee-recipes-app/index.html",
     "main.0f15db99.css.map": "/coffee-recipes-app/static/css/main.0f15db99.css.map",
-    "main.523590bc.js.map": "/coffee-recipes-app/static/js/main.523590bc.js.map"
+    "main.641de487.js.map": "/coffee-recipes-app/static/js/main.641de487.js.map"
   },
   "entrypoints": [
     "static/css/main.0f15db99.css",
-    "static/js/main.523590bc.js"
+    "static/js/main.641de487.js"
   ]
 }
