@@ -16,25 +16,11 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Dinamik olarak tüm dosyaları önbelleğe alma (fetch olayı ile)
+// Service worker ile fetch olayını yönetme
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
-      }
-      return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
-        }
-
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
-
-        return networkResponse;
-      });
+      return response || fetch(event.request);
     })
   );
 });
