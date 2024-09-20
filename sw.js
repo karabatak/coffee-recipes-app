@@ -1,4 +1,4 @@
-const CACHE_NAME = 'coffee-recipes-cache-v47'; 
+const CACHE_NAME = 'coffee-recipes-cache-v48'; 
 // Cache alanımızın adı. 
 // Versiyon her yükseltildiğinde eski cache'ler temizlenir.
 
