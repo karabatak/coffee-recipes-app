@@ -66,6 +66,12 @@ const recipes = [
       name: 'Dalgona Kahvesi',
       image: 'https://www.eliteworldhotels.com.tr/Upload/images/dalgona-kahvesi.jpg',
       description: 'Son zamanlarda adından sıkça söz ettiren Dalgona kahvesini yapmak için ihtiyacınız olan malzemeler: 2 yemek kaşığı granül kahve, 2 yemek kaşığı sıcak su, 2 yemek kaşığı şeker, Yarım bardak süt'
+    },
+    {
+      id: 12,
+      name: 'Test Kahvesi',
+      image: 'https://i.nefisyemektarifleri.com/2023/04/28/macchiato-nedir-nasil-yapilir-icilir.jpg',
+      description: 'askjdhakshdjkashkjdhajksh jkhajksh djkahsjkd akshdhk askd haksd hkashd kakd ahks kds'
     }
   ];
   
