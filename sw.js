@@ -1,4 +1,4 @@
-const CACHE_NAME = 'coffee-recipes-cache-v43'; // Her yeni versiyon çıktığında bu değeri değiştirin
+const CACHE_NAME = 'coffee-recipes-cache-v44'; // Her yeni versiyon çıktığında bu değeri değiştirin
 const urlsToCache = [
   '/coffee-recipes-app/',
   '/coffee-recipes-app/manifest.json',
