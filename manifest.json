@@ -1,6 +1,6 @@
 {
-  "short_name": "Kahve Tarifleri",
   "name": "Kahve Tarifleri Uygulaması",
+  "short_name": "Kahve Tarifleri",
   "icons": [
     {
       "src": "icons/icon-192x192.png",
