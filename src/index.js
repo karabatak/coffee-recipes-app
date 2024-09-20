@@ -30,14 +30,27 @@ onMessageListener().then((payload) => {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     // firebase-messaging-sw.js dosyasını kaydediyoruz
-    navigator.serviceWorker.register('/coffee-recipes-app/firebase-messaging-sw.js').then(
-      (registration) => {
+    navigator.serviceWorker.register('/coffee-recipes-app/firebase-messaging-sw.js')
+      .then((registration) => {
         console.log('Firebase Messaging Service Worker kayıt başarılı:', registration.scope);
-      },
-      (err) => {
+
+        // Bildirim izni iste ve FCM token al
+        requestNotificationPermission(registration).then((token) => {
+          if (token) {
+            console.log('FCM Token alındı:', token);
+            // Token'ı sunucunuza kaydedin veya gerektiği gibi kullanın
+          }
+        });
+
+        // Ön planda gelen mesajları dinleme
+        onMessageListener().then((payload) => {
+          console.log('Mesaj alındı:', payload);
+          // İsteğe bağlı: Bildirimi gösterin veya kullanıcıyı bilgilendirin
+        });
+      })
+      .catch((err) => {
         console.log('Firebase Messaging Service Worker kayıt başarısız:', err);
-      }
-    );
+      });
 
     // PWA veya diğer işlemler için sw.js dosyasını kaydediyoruz
     navigator.serviceWorker.register('/coffee-recipes-app/sw.js').then(
